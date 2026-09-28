@@ -6,6 +6,8 @@
 
 Go • только стандартная библиотека • HTML/CSS/JavaScript без зависимостей • Tomorrow School
 
+**Работающий сайт:** [tour-track.onrender.com](https://tour-track.onrender.com). Бесплатный сервис Render может засыпать при бездействии; первый запрос после сна иногда занимает 50 секунд и больше.
+
 ## Запуск за минуту
 
 Нужен Go **1.23+**. Рекомендуется актуальная поддерживаемая версия Go. Node.js, npm, база данных и API-ключи для запуска не нужны.
@@ -149,7 +151,7 @@ go build -trimpath -o bin/tour-track .
 
 ## Развёртывание
 
-Инструкции и ограничения: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). Есть Dockerfile и готовый Render Blueprint. Наличие этих файлов само по себе **не означает**, что публичный сервис уже развёрнут.
+Публичный Go-сервис развёрнут на бесплатном Render: [tour-track.onrender.com](https://tour-track.onrender.com). Инструкции и ограничения: [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). В репозитории есть Dockerfile и Render Blueprint для воспроизводимого развёртывания.
 
 ## Данные и авторство
 
