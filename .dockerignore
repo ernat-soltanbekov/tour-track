@@ -1,0 +1,7 @@
+.git
+bin
+tour-track
+coverage*
+.env
+*.prof
+docs

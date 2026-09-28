@@ -1,0 +1,10 @@
+/tour-track
+/bin/
+/coverage.out
+/coverage.html
+*.test
+*.prof
+.env
+.env.*
+!.env.example
+.DS_Store
