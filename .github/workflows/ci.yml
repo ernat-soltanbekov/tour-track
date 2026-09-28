@@ -1,0 +1,36 @@
+name: Go audit
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        go: ['1.23.x', 'stable']
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: ${{ matrix.go }}
+          cache: false
+      - name: Formatting
+        run: test -z "$(gofmt -l .)"
+      - name: Standard library only
+        run: test -z "$(go list -deps -f '{{if not .Standard}}{{if not .Module.Main}}{{.ImportPath}}{{end}}{{end}}' ./...)"
+      - run: go vet ./...
+      - run: go test -race -cover ./...
+      - run: go build -trimpath -o bin/tour-track .
+      - run: node --check internal/web/static/app.js
+      - name: Fuzz classifier
+        run: go test ./internal/activity -run '^$' -fuzz FuzzScore -fuzztime 10s -parallel 2
+      - name: Fuzz date parser
+        run: go test ./internal/activity -run '^$' -fuzz FuzzDate -fuzztime 10s -parallel 2
+      - name: Fuzz country extraction
+        run: go test ./internal/catalog -run '^$' -fuzz FuzzCountry -fuzztime 10s -parallel 2
+      - name: Fuzz query parsing
+        run: go test ./internal/web -run '^$' -fuzz FuzzQuery -fuzztime 10s -parallel 2
