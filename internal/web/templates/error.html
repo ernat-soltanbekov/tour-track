@@ -1,0 +1,12 @@
+{{define "error"}}{{template "head" .}}
+<main id="main" class="shell error-page">
+  <p class="eyebrow">SIGNAL INTERRUPTED / {{.Status}}</p>
+  <h1>{{.Status}}</h1>
+  <h2>{{.Title}}</h2>
+  <p>{{.Message}}</p>
+  <div class="error-actions">
+    <a href="/" class="button">Return to the directory ↗</a
+    ><a href="/about" class="text-link">Read the field notes</a>
+  </div>
+</main>
+{{template "footer" .}}{{end}}

@@ -1,0 +1,161 @@
+{{define "detail"}}{{template "head" .}}
+<main id="main" class="shell detail-page">
+  <a class="back-link" href="/">← Back to the directory</a>
+  <section class="artist-hero">
+    <div class="portrait">
+      <img
+        src="{{.Artist.Image}}"
+        alt="{{.Artist.Name}}"
+        width="500"
+        height="500"
+      /><span>ARTIST / {{printf "%02d" .Artist.ID}}</span>
+    </div>
+    <div class="artist-intro">
+      <p class="eyebrow">THE ARTIST FILE · EST. {{.Artist.CreationDate}}</p>
+      <h1>{{.Artist.Name}}</h1>
+      <div class="badge-row">{{template "badge" .Artist}}</div>
+      <p class="artist-summary">
+        {{.Artist.CareerYears}} career years. {{.Artist.TourSpread}}
+        countries.<br />One trajectory, seen through the archive.
+      </p>
+      <dl class="intro-facts">
+        <div>
+          <dt>FIRST ALBUM</dt>
+          <dd>{{.Artist.FirstAlbum}}</dd>
+        </div>
+        <div>
+          <dt>MEMBERS IN THE API</dt>
+          <dd>{{len .Artist.Members}}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+  <section class="score-panel" aria-labelledby="score-heading">
+    <div class="score-total">
+      <p class="eyebrow">ACTIVITY SCORE</p>
+      <strong>{{.Artist.Score}}</strong><span>{{.Artist.Label}}</span>
+    </div>
+    <div class="score-explanation">
+      <h2 id="score-heading">Every point accounted for.</h2>
+      <div class="formula">
+        <div>
+          <strong>{{.Artist.TourSpread}} × 2</strong
+          ><span>unique countries</span>
+        </div>
+        <b>+</b>
+        <div>
+          <strong>{{.Artist.ConcertCount}} × 3</strong
+          ><span>concert dates</span>
+        </div>
+        <b>+</b>
+        <div>
+          <strong>{{.Artist.CareerPoints}}</strong
+          ><span>career points, capped at 10</span>
+        </div>
+      </div>
+      <p>
+        Career: {{.Artist.Year}} − {{.Artist.CreationDate}} =
+        {{.Artist.CareerYears}} years. Career points use whole groups of 5
+        years. <a href="/about#method">How it works ↗</a>
+      </p>
+      <p>
+        {{.Artist.RecentConcerts}} concert dates in the last two years. {{if
+        .Artist.RisingStar}}Recent rate exceeds the career average by more than
+        50%.{{else}}The Rising Star threshold is not met in this dataset.{{end}}
+      </p>
+    </div>
+  </section>
+  <div class="detail-columns">
+    <section class="members" aria-labelledby="members-heading">
+      <p class="eyebrow">01 / THE PEOPLE</p>
+      <h2 id="members-heading">The lineup.</h2>
+      <p class="subtle">Members as listed by the source API.</p>
+      <ul class="member-list">
+        {{range .Artist.Members}}
+        <li><span aria-hidden="true">↗</span>{{.}}</li>
+        {{else}}
+        <li>No members listed.</li>
+        {{end}}
+      </ul>
+      <h3>Countries reached</h3>
+      <div class="country-list">
+        {{range .Artist.Countries}}<span>{{place .}}</span>{{else}}<span
+          >No countries listed.</span
+        >{{end}}
+      </div>
+    </section>
+    <section class="tour-log" aria-labelledby="tour-heading">
+      <p class="eyebrow">02 / THE PLACES</p>
+      <h2 id="tour-heading">On the record.</h2>
+      <p class="subtle">
+        Concert locations and their linked dates. Historical records may include
+        upcoming dates from the original archive.
+      </p>
+      <div class="table-wrap">
+        <table>
+          <caption class="sr-only">
+            Concert locations and dates for {{.Artist.Name}}
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">LOCATION</th>
+              <th scope="col">CONCERT DATES</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{range .Artist.Concerts}}
+            <tr>
+              <td>
+                <strong class="place-name">{{.Display}}</strong
+                ><code>{{.Location}}</code>
+              </td>
+              <td>
+                {{range .Dates}}<span class="concert-date">{{.}}</span
+                >{{else}}No dates listed{{end}}
+              </td>
+            </tr>
+            {{else}}
+            <tr>
+              <td colspan="2">No linked concert locations in the API.</td>
+            </tr>
+            {{end}}
+          </tbody>
+        </table>
+      </div>
+      {{if .Artist.UnlinkedDates}}
+      <div class="notice">
+        <strong>Dates without a linked venue</strong>
+        <p>
+          The dates source includes these entries, but the relation source
+          supplies no matching venue. They still count toward the activity
+          score.
+        </p>
+        <div>
+          {{range .Artist.UnlinkedDates}}<span class="concert-date">{{.}}</span
+          >{{end}}
+        </div>
+      </div>
+      {{end}}
+      <details class="raw-locations">
+        <summary>
+          All {{len .Artist.Locations}} locations from the locations source
+        </summary>
+        <ul>
+          {{range .Artist.Locations}}
+          <li><code>{{.}}</code></li>
+          {{else}}
+          <li>No locations listed.</li>
+          {{end}}
+        </ul>
+      </details>
+    </section>
+  </div>
+  <div class="directory-bottom">
+    {{template "freshness" .}}
+    <p>
+      Scores are recomputed at request time. Archive freshness is not the date
+      of the latest concert.
+    </p>
+  </div>
+</main>
+{{template "footer" .}}{{end}}

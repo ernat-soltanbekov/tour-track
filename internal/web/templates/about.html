@@ -1,0 +1,140 @@
+{{define "about"}}{{template "head" .}}
+<main id="main" class="shell about-page">
+  <section class="about-intro">
+    <p class="eyebrow">FIELD NOTES / GHOSTOFASTANA</p>
+    <h1>Discipline is<br />a daily <span class="accent">practice.</span></h1>
+    <p class="large-copy">
+      A music archive built with an engineer’s curiosity and a martial artist’s
+      consistency.
+    </p>
+  </section>
+  <section class="story-grid">
+    <div>
+      <p class="eyebrow">01 / THE PERSON</p>
+      <h2>Yernat Soltanbekov.</h2>
+      <p>
+        Known online as GhostOfAstana. Military experience, technical education,
+        and a commitment to doing the work every day shape the thinking behind
+        this project.
+      </p>
+      <p>
+        Morning martial arts practice has been part of that routine since 2008.
+        Today, the same patience carries into studying at Tomorrow School and
+        pursuing a role with the Astana Hub team.
+      </p>
+      <p class="subtle">
+        An independent student project. Tomorrow School and Astana Hub are part
+        of the author’s story, not project sponsors or employers.
+      </p>
+      <a
+        class="text-link"
+        href="https://github.com/ernat-soltanbekov"
+        rel="noreferrer"
+        >Explore the work on GitHub ↗</a
+      >
+    </div>
+    <div class="principles">
+      <div>
+        <span>01</span>
+        <h3>Show up.</h3>
+        <p>Every morning, since 2008. Progress comes from practice.</p>
+      </div>
+      <div>
+        <span>02</span>
+        <h3>Understand the system.</h3>
+        <p>Follow the data. Make every decision explainable.</p>
+      </div>
+      <div>
+        <span>03</span>
+        <h3>Keep your footing.</h3>
+        <p>When a dependency fails, handle it and recover.</p>
+      </div>
+    </div>
+  </section>
+  <section id="method" class="method">
+    <p class="eyebrow">02 / THE METHOD</p>
+    <h2>Activity without the mystery.</h2>
+    <p>
+      The classifier is a set of explicit rules. It measures the concert data
+      provided by the archive. It does not predict success or measure an
+      artist’s current popularity.
+    </p>
+    <div class="method-formula">
+      <code>(countries × 2) + (dates × 3) + min(10, career years / 5)</code>
+      <p>
+        Career years = current server year − formation year. Division uses whole
+        numbers.
+      </p>
+    </div>
+    <div class="label-guide">
+      <div>
+        <span class="badge emerging">Emerging</span><strong>0–10</strong>
+      </div>
+      <div><span class="badge active">Active</span><strong>11–25</strong></div>
+      <div>
+        <span class="badge established">Established</span><strong>26–40</strong>
+      </div>
+      <div>
+        <span class="badge legendary">Legendary</span><strong>41+</strong>
+      </div>
+    </div>
+    <p>
+      <strong>Try it:</strong> 5 countries, 8 concert dates, 30 career years →
+      10 + 24 + 6 = <strong>40 · Established</strong>.
+    </p>
+    <h3>What makes a Rising Star?</h3>
+    <p>
+      The concert rate over the latest two calendar years must exceed the career
+      average by more than 50%. A recent average of 7 concerts per year beats a
+      career average of 4 × 1.5 = 6; an average of 5 does not. Exactly 6 does
+      not qualify either.
+    </p>
+    <p>
+      We use a rolling two-year window ending today in UTC. Future dates are
+      excluded. Artists with zero career years are not flagged because their
+      career average would involve division by zero.
+    </p>
+  </section>
+  <section class="source-notes">
+    <p class="eyebrow">03 / THE SOURCE</p>
+    <h2>Four sources. One artist file.</h2>
+    <div class="source-grid">
+      <div>
+        <strong>Artists</strong>
+        <p>Names, images, members, formation year, and first album.</p>
+      </div>
+      <div>
+        <strong>Locations</strong>
+        <p>Concert places and the unique countries used in scoring.</p>
+      </div>
+      <div>
+        <strong>Dates</strong>
+        <p>
+          All listed concert entries. Each entry counts, including repeated
+          dates.
+        </p>
+      </div>
+      <div>
+        <strong>Relation</strong>
+        <p>The links between locations and concert dates.</p>
+      </div>
+    </div>
+    <p>
+      All four are linked by artist ID. The archive sometimes has dates without
+      a linked venue; we display them openly. Source spellings are preserved,
+      including names that may look like typos.
+    </p>
+    <p>
+      Data is retained in memory for five minutes. If the source is unavailable,
+      a clearly marked previous snapshot can be served for up to 24 hours. A
+      cold start without a reachable source displays a retryable error.
+    </p>
+    <a
+      class="text-link"
+      href="https://groupietrackers.herokuapp.com/api"
+      rel="noreferrer"
+      >Open the source API ↗</a
+    >
+  </section>
+</main>
+{{template "footer" .}}{{end}}

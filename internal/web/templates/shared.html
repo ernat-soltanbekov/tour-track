@@ -1,0 +1,85 @@
+{{define "head"}}<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Explore artists, trace their tours, and understand their activity. A music archive built with discipline in Astana."
+    />
+    <title>{{.Title}} · tour-track</title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="header">
+      <a class="brand" href="/" aria-label="tour-track home"
+        ><span class="brand-symbol" aria-hidden="true">↗</span>tour<span
+          class="brand-dash"
+          >—</span
+        >track<span class="edition">FIELD EDITION / 01</span></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="/" {{if eq .Active "artists"}}aria-current="page"{{end}}>Artists</a
+        ><a href="/about" {{if eq .Active "about"}}aria-current="page"{{end}}
+          >Field notes <span aria-hidden="true">↗</span></a
+        >
+      </nav>
+      <span class="header-location"
+        >ASTANA, KZ <span class="live-dot" aria-hidden="true"></span
+      ></span>
+    </header>
+    {{end}} {{define "footer"}}
+    <footer class="footer">
+      <div>
+        <a class="brand" href="/">tour<span class="brand-dash">—</span>track</a>
+        <p>Built with discipline. Driven by curiosity.</p>
+      </div>
+      <div class="footer-right">
+        <span>GHOSTOFASTANA / TOMORROW SCHOOL</span
+        ><a href="/about">The person behind the project ↗</a>
+      </div>
+    </footer>
+  </body>
+</html>
+{{end}} {{define "badge"}}<span class="badge {{lower .Label}}">{{.Label}}</span
+>{{if .RisingStar}}<span class="badge rising">↗ Rising Star</span
+>{{end}}{{end}} {{define "card"}}
+<article class="artist-card">
+  <a class="card-link" href="/artists/{{.ID}}" aria-label="Explore {{.Name}}">
+    <div class="card-image">
+      <img
+        src="{{.Image}}"
+        alt="{{.Name}}"
+        loading="lazy"
+        width="400"
+        height="400"
+      /><span class="card-index">ARTIST / {{printf "%02d" .ID}}</span
+      ><span class="card-arrow" aria-hidden="true">↗</span>
+    </div>
+    <div class="card-content">
+      <div class="card-meta">
+        <span>EST. {{.CreationDate}}</span>{{template "badge" .}}
+      </div>
+      <h3>{{.Name}}</h3>
+      <div class="card-stats">
+        <span><strong>{{.TourSpread}}</strong> countries</span
+        ><span><strong>{{.ConcertCount}}</strong> dates</span
+        ><span class="score-mini"><strong>{{.Score}}</strong> score</span>
+      </div>
+    </div></a
+  >
+</article>
+{{end}} {{define "freshness"}}
+<div class="source-line" id="source-line">
+  {{if .Stale}}<span class="status-dot stale-dot"></span> Cached archive ·
+  source temporarily unavailable or updating{{else}}<span
+    class="status-dot"
+  ></span>
+  Archive connected{{end}}<span class="source-time"
+    >Retrieved {{date .FetchedAt}}</span
+  >
+</div>
+{{end}}

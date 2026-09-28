@@ -1,0 +1,156 @@
+{{define "index"}}{{template "head" .}}
+<main id="main" class="shell">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="eyebrow">
+        <span class="mini-cross" aria-hidden="true">+</span> THE ARTIST & TOUR
+        ARCHIVE
+      </p>
+      <h1 id="hero-title">Music in<br /><span class="accent">motion.</span></h1>
+      <p class="hero-description">
+        Every artist has a trajectory.<br />Explore the people, places, and
+        performances behind it.
+      </p>
+      <a class="text-link" href="#directory"
+        >Find your frequency <span aria-hidden="true">↓</span></a
+      >
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <div class="radar-label">SIGNAL / WORLDWIDE</div>
+      <div class="record">
+        <div class="record-label">
+          <span>TT</span><small>SIDE A · IN MOTION</small>
+        </div>
+        <i class="record-hole"></i>
+      </div>
+      <div class="orbit-point point-one"></div>
+      <div class="orbit-point point-two"></div>
+      <div class="orbit-line"></div>
+      <div class="record-caption">
+        <span>DISCIPLINE.<br />RHYTHM. REPEAT.</span
+        ><span>51° N<br />71° E</span>
+      </div>
+    </div>
+  </section>
+  <section class="stat-strip" aria-label="Archive statistics">
+    <div>
+      <strong id="stat-artists">{{.Total}}</strong
+      ><span>ARTISTS IN THE ARCHIVE</span>
+    </div>
+    <div>
+      <strong id="stat-countries">{{len .Countries}}</strong
+      ><span>COUNTRIES REACHED</span>
+    </div>
+    <div>
+      <strong id="stat-dates">{{.ConcertCount}}</strong
+      ><span>RECORDED CONCERT DATES</span>
+    </div>
+    <a href="/about#method"
+      ><span class="stat-icon" aria-hidden="true">✳</span
+      ><span
+        >ACTIVITY, EXPLAINED<br /><small
+          >Transparent scores. No black box. ↗</small
+        ></span
+      ></a
+    >
+  </section>
+  <section id="directory" class="directory" aria-labelledby="directory-title">
+    <div class="section-top">
+      <div>
+        <p class="eyebrow">01 / THE DIRECTORY</p>
+        <h2 id="directory-title">Find your next deep dive.</h2>
+      </div>
+      <p class="subtle">From first releases to worldwide stages.</p>
+    </div>
+    <form action="/" method="get" id="filters" class="filters" role="search">
+      <div class="search-field">
+        <label class="sr-only" for="q">Search artists, members or places</label
+        ><span aria-hidden="true">⌕</span
+        ><input
+          type="search"
+          id="q"
+          name="q"
+          maxlength="200"
+          value="{{.Filters.Query}}"
+          placeholder="Search artists, members or places…"
+          autocomplete="off"
+        />
+      </div>
+      <div class="select-field">
+        <label for="label">Activity</label
+        ><select id="label" name="label">
+          <option value="">All activity</option>
+          <option {{if eq .Filters.Label "Emerging"}}selected{{end}}>Emerging</option>
+          <option {{if eq .Filters.Label "Active"}}selected{{end}}>Active</option>
+          <option {{if eq .Filters.Label "Established"}}selected{{end}}>Established</option>
+          <option {{if eq .Filters.Label "Legendary"}}selected{{end}}>Legendary</option>
+          <option {{if eq .Filters.Label "Rising Star"}}selected{{end}}>Rising Star</option>
+        </select>
+      </div>
+      <div class="select-field">
+        <label for="country">Country</label
+        ><select id="country" name="country">
+          <option value="">Everywhere</option>
+          {{range .Countries}}
+          <option value="{{.}}" {{if eq $.Filters.Country .}}selected{{end}}>{{place .}}</option>
+          {{end}}
+        </select>
+      </div>
+      <div class="select-field">
+        <label for="sort">Sort by</label
+        ><select id="sort" name="sort">
+          <option value="name" {{if eq .Filters.Sort "name"}}selected{{end}}>Name A–Z</option>
+          <option value="score" {{if eq .Filters.Sort "score"}}selected{{end}}>Activity score</option>
+          <option value="newest" {{if eq .Filters.Sort "newest"}}selected{{end}}>Newest formed</option>
+        </select>
+      </div>
+      <button class="button filter-submit" type="submit">
+        Explore <span aria-hidden="true">↗</span>
+      </button>
+    </form>
+    <div class="results-bar">
+      <p id="result-status" role="status" aria-live="polite">
+        {{.Matched}} of {{.Total}} artists
+      </p>
+      <a href="/" id="reset-filters"
+        >Reset filters <span aria-hidden="true">↺</span></a
+      >
+    </div>
+    <div
+      id="request-error"
+      class="notice error-notice"
+      role="alert"
+      hidden
+    ></div>
+    <div id="artist-grid" class="artist-grid">
+      {{range .Artists}}{{template "card" .}}{{else}}
+      <div class="empty-state">
+        <span aria-hidden="true">⌕</span>
+        <h3>No matching artists.</h3>
+        <p>Try another name, country, or activity level.</p>
+        <a class="button" href="/">Clear filters</a>
+      </div>
+      {{end}}
+    </div>
+    <div class="directory-bottom">
+      {{template "freshness" .}}
+      <p>
+        Tour dates come from a historical dataset; labels describe its contents,
+        not live touring status.
+      </p>
+    </div>
+  </section>
+  <aside class="author-strip">
+    <div class="author-mark" aria-hidden="true">↗</div>
+    <div>
+      <p class="eyebrow">MADE IN ASTANA</p>
+      <h2>Different paths. The same discipline.</h2>
+      <p>
+        From military service and martial arts to engineering at Tomorrow
+        School.
+      </p>
+    </div>
+    <a class="text-link" href="/about">Read the field notes ↗</a>
+  </aside>
+</main>
+{{template "footer" .}}{{end}}
